@@ -1,8 +1,9 @@
 config:
   env: development
   port: 8080
-database:
-  url: postgres://user:password@localhost:5432/dbname
-  max_connections: 20
+  hostname: http://shortify
+pgsql:
+  host: postgres://postgres:frajolinha202@localhost:5432/postgres
+  entryPoint: ./init.sql
 redis:
   url: redis://localhost:6379

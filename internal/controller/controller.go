@@ -7,7 +7,8 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-func init() {
+func Start() {
 	http.HandleFunc("/swagger/", httpSwagger.WrapHandler)
 	http.HandleFunc("/health", NewHealth)
+	http.HandleFunc("/url-record", NewUrlRecord().NewUrlRecord)
 }

@@ -1,4 +1,4 @@
-package entity
+package vo
 
 import (
 	"github.com/google/uuid"
@@ -12,4 +12,14 @@ func NewId() Id {
 	return Id{
 		id: uuid.NewString(),
 	}
+}
+
+func TransformStringInId(v string) Id {
+	return Id{
+		id: v,
+	}
+}
+
+func (i Id) GetValue() string {
+	return i.id
 }

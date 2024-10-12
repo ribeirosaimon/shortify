@@ -23,17 +23,18 @@ services:
 #      - pgsql
 #      - mongo
 
-#  pgsql:
-#    image: postgres:13
-#    ports:
-#      - "5430:5432"
-#    environment:
-#      POSTGRES_USER: exampleuser
-#      POSTGRES_PASSWORD: examplepass
-#      POSTGRES_DB: exampledb
-#    volumes:
-#      - pgsql-data:/var/lib/postgresql/data
-#
+  pgsql:
+    image: postgres:13
+    container_name: pg_container
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5430:5432"
+
 #  mongo:
 #    image: mongo:5
 #    ports:

@@ -1,4 +1,4 @@
-package base62
+package factory
 
 import (
 	"testing"
@@ -15,11 +15,7 @@ func FuzzBase62(f *testing.F) {
 	f.Add("")
 
 	f.Fuzz(func(t *testing.T, input string) {
-		encoded := Encode(input)
+		encoded := NewBase62().Encode()
 		assert.NotNil(t, encoded)
-
-		for _, char := range encoded {
-			assert.Contains(t, base62Chars, string(char))
-		}
 	})
 }

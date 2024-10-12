@@ -1,14 +1,12 @@
 package main
 
 import (
-	"errors"
-	"fmt"
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/ribeirosaimon/shortify/config/env"
+	"github.com/ribeirosaimon/shortify/internal/controller"
 	_ "github.com/ribeirosaimon/shortify/internal/controller"
+	"github.com/ribeirosaimon/tooltip/tserver"
 )
 
 // @title Shortify
@@ -21,9 +19,12 @@ import (
 // @BasePath  /
 func main() {
 	if myEnv := os.Getenv("ENVIRONMENT"); myEnv != "" {
-		env.StartEnv(myEnv)
-	} else {
-		log.Fatal(errors.New("missing ENVIRONMENT variable"))
+		tserver.StartEnv(tserver.Environment(myEnv))
 	}
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", env.GetConfig().Port), nil))
+	controller.Start()
+	config := tserver.GetEnvironment()
+	if config.Env == "" {
+		log.Fatal("Environment variable not set")
+	}
+	tserver.NewServer(config)
 }

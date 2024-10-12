@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/ribeirosaimon/shortify/internal/dto"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -19,7 +20,7 @@ func TestHealth(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, rr.Code)
 
-	var actual HealthDto
+	var actual dto.HealthResponse
 	err = json.NewDecoder(rr.Body).Decode(&actual)
 	assert.NoError(t, err)
 
