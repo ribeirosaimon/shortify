@@ -24,11 +24,11 @@ run: build
 	docker run --name $(CONTAINER_NAME) -d -p 8080:8080 $(IMAGE_NAME)
 
 .PHONY: dev
-up: lint
+dev: lint
 	@echo "Up with docker-compose"
 	ENVIRONMENT=dev docker-compose up
 
 .PHONY: sandbox
-up: lint
+sandbox: lint
 	@echo "Up with docker-compose"
 	ENVIRONMENT=sandbox docker-compose up

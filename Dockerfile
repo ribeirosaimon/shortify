@@ -13,4 +13,5 @@ LABEL maintainer = "shortifyApp"
 WORKDIR /app
 COPY --from=builder /app/shortify /app
 COPY --from=builder /app/config.${ENVIRONMENT}.yaml /app
+COPY --from=builder /app/init.sql /app
 ENTRYPOINT ./shortify
