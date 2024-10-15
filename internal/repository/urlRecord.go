@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/ribeirosaimon/shortify/config/db"
-	"github.com/ribeirosaimon/shortify/config/di"
 	"github.com/ribeirosaimon/shortify/internal/entity"
 	"github.com/ribeirosaimon/tooltip/storage/pgsql"
 	"github.com/ribeirosaimon/tooltip/tlog"
@@ -20,23 +19,17 @@ type UrlRecordRepository interface {
 }
 
 // NewUrl is once open function
-func NewUrl() {
-	di.GetRegistry().Provide(di.UrlRecordRepository, func() any {
-		return newUrlRepositoryImpl()
-	})
-}
-
-func newUrlRepositoryImpl() UrlRecordRepository {
-	return &UrlRepositoryImpl{
+func NewUrl() *urlRepositoryImpl {
+	return &urlRepositoryImpl{
 		conn: db.NewPgsqlConnection(),
 	}
 }
 
-type UrlRepositoryImpl struct {
+type urlRepositoryImpl struct {
 	conn pgsql.PConnInterface
 }
 
-func (u *UrlRepositoryImpl) InsertUrlRecord(ctx context.Context, urlRecord *entity.UrlRecord) (*entity.UrlRecord, error) {
+func (u *urlRepositoryImpl) InsertUrlRecord(ctx context.Context, urlRecord *entity.UrlRecord) (*entity.UrlRecord, error) {
 	query := fmt.Sprintf("INSERT INTO %s (created_at, id, original_url, shortened_url) VALUES ($1, $2, $3, $4)", urlTable)
 	tlog.Debug("CreateUrlRecord", query)
 
@@ -51,7 +44,7 @@ func (u *UrlRepositoryImpl) InsertUrlRecord(ctx context.Context, urlRecord *enti
 	return urlRecord, nil
 }
 
-func (u *UrlRepositoryImpl) GetUrlRecord(ctx context.Context, id string) (*entity.UrlRecord, error) {
+func (u *urlRepositoryImpl) GetUrlRecord(ctx context.Context, id string) (*entity.UrlRecord, error) {
 	query := "SELECT u.id, u.original_url, u.shortened_url, u.created_at  FROM url_records u WHERE id = $1"
 	tlog.Debug("GetUrlRecord", query)
 	var urlDao struct {

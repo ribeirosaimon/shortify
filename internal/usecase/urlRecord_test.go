@@ -20,6 +20,10 @@ func TestUrlRecordUseCase(t *testing.T) {
 	di.GetRegistry().Provide(di.UrlRecordRepository, func() any {
 		return repoMock.NewMockUrlRecordRepository(ctrl)
 	})
+	di.GetRegistry().Provide(di.UrlRecordUseCase, func() any {
+		return NewUrlRecord()
+	})
+
 	recordRepository := di.GetRegistry().Inject(di.UrlRecordRepository).(*repoMock.MockUrlRecordRepository)
 	NewUrlRecord()
 
@@ -37,7 +41,7 @@ func TestUrlRecordUseCase(t *testing.T) {
 			urlRecord: dto.UrlRecord{Url: "https://google.com"},
 			auxFunc: func() {
 				recordRepository.EXPECT().InsertUrlRecord(gomock.Any(), gomock.Any()).
-					Return(entity.TranformInUrlRecord("", "", "", time.Now()), nil)
+					Return(entity.TranformInUrlRecord("", "https://google.com", "", time.Now()), nil)
 			},
 		},
 		{

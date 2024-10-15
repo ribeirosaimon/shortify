@@ -21,14 +21,7 @@ type urlRecordUseCase struct {
 	urlRepository repository.UrlRecordRepository
 }
 
-func NewUrlRecord() {
-	di.GetRegistry().Provide(di.UrlRecordUseCase, func() any {
-		return newUrlRecord()
-	})
-}
-
-func newUrlRecord() *urlRecordUseCase {
-	repository.NewUrl()
+func NewUrlRecord() *urlRecordUseCase {
 	recordRepository := di.GetRegistry().Inject(di.UrlRecordRepository).(repository.UrlRecordRepository)
 	return &urlRecordUseCase{
 		urlRepository: recordRepository,

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/ribeirosaimon/shortify/config/adapter"
 	"github.com/ribeirosaimon/shortify/internal/controller"
 	_ "github.com/ribeirosaimon/shortify/internal/controller"
 	"github.com/ribeirosaimon/tooltip/tserver"
@@ -21,6 +22,9 @@ func main() {
 	if myEnv := os.Getenv("ENVIRONMENT"); myEnv != "" {
 		tserver.StartEnv(tserver.Environment(myEnv))
 	}
+
+	adapter.NewExpress()
+
 	controller.Start()
 	config := tserver.GetEnvironment()
 	if config.Env == "" {

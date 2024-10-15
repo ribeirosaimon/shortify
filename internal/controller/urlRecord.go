@@ -16,7 +16,6 @@ type UrlRecord struct {
 }
 
 func NewUrlRecord() *UrlRecord {
-	usecase.NewUrlRecord()
 	return &UrlRecord{
 		urlRecord: di.GetRegistry().Inject(di.UrlRecordUseCase).(usecase.UrlRecord),
 	}

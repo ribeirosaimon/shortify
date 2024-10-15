@@ -21,7 +21,10 @@ func TestUrlRecordRepository(t *testing.T) {
 
 	tserver.NewMockEnvironment(tserver.MockEnvironment{PgsqlHost: container.GetHost(), PgsqlDatabase: "test", PgsqlEntryPoint: "../../init.sql"})
 
-	NewUrl()
+	di.GetRegistry().Provide(di.UrlRecordRepository, func() any {
+		return NewUrl()
+	})
+
 	repository := di.GetRegistry().Inject(di.UrlRecordRepository).(UrlRecordRepository)
 
 	for _, v := range []struct {
