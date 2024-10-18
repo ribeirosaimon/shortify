@@ -6,7 +6,6 @@ import (
 
 	"github.com/ribeirosaimon/shortify/config/adapter"
 	"github.com/ribeirosaimon/shortify/internal/controller"
-	_ "github.com/ribeirosaimon/shortify/internal/controller"
 
 	"github.com/ribeirosaimon/tooltip/tserver"
 )

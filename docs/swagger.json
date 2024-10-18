@@ -1,0 +1,74 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Shortener api",
+        "title": "Shortify",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "url": "http://www.swagger.io/support",
+            "email": "suporte@swagger.io"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "Check up app",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Health",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Health"
+                        }
+                    }
+                }
+            }
+        },
+        "/url-record": {
+            "post": {
+                "description": "Create one urlRecord in database",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Post url",
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UrlRecord"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.Health": {
+            "type": "object",
+            "properties": {
+                "environment": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                },
+                "up": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "dto.UrlRecord": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

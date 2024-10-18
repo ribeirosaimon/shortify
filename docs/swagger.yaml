@@ -1,0 +1,48 @@
+basePath: /
+definitions:
+  dto.Health:
+    properties:
+      environment:
+        type: string
+      time:
+        type: string
+      up:
+        type: boolean
+    type: object
+  dto.UrlRecord:
+    properties:
+      url:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: suporte@swagger.io
+    url: http://www.swagger.io/support
+  description: Shortener api
+  termsOfService: http://swagger.io/terms/
+  title: Shortify
+paths:
+  /health:
+    get:
+      description: Check up app
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/dto.Health'
+      summary: Get Health
+  /url-record:
+    post:
+      description: Create one urlRecord in database
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/dto.UrlRecord'
+      summary: Post url
+swagger: "2.0"
