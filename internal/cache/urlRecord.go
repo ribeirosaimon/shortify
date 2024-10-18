@@ -3,24 +3,40 @@ package cache
 import (
 	"context"
 
-	"github.com/ribeirosaimon/shortify/internal/dto"
+	"github.com/ribeirosaimon/shortify/config/db"
+	"github.com/ribeirosaimon/shortify/config/factory"
+	"github.com/ribeirosaimon/shortify/internal/entity"
+	"github.com/ribeirosaimon/shortify/internal/role"
 	"github.com/ribeirosaimon/tooltip/storage/redis"
+	"github.com/ribeirosaimon/tooltip/tlog"
 )
 
 type UrlRecord interface {
-	Create(ctx context.Context, urlRecord *dto.UrlRecord) error
+	Create(ctx context.Context, urlRecord *entity.UrlRecord) error
 }
 
 type urlRecordCache struct {
-	urlCache redis.Connection
+	urlCache redis.RConnInterface
 }
 
-func NewUrlRecordCache() *urlRecordCache {
+func NewUrlRecord() *urlRecordCache {
 	return &urlRecordCache{
-		urlCache: redis.NewRedisConnection(),
+		urlCache: db.NewRedisConnection(),
 	}
 }
 
-func (u *urlRecordCache) Create(ctx context.Context, urlRecord *dto.UrlRecord) error {
-	u.urlCache.
+func (u *urlRecordCache) Create(ctx context.Context, urlRecord *entity.UrlRecord) error {
+	tlog.Debug("NewUrlRecord.Create", "Create Url in Redis")
+
+	plan := factory.GetUserPlan(role.BasicUser)
+	if err := u.urlCache.GetConnection().
+		Set(
+			ctx,
+			urlRecord.GetShortenedUrl().GetValue(),
+			urlRecord.GetOriginalUrl().GetValue(),
+			plan.TimeToExpired()).
+		Err(); err != nil {
+		tlog.Warn("NewUrlRecord.Create", "Create Url in Redis")
+	}
+	return nil
 }

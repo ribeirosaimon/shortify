@@ -5,11 +5,10 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/ribeirosaimon/shortify/config/di"
 	"github.com/ribeirosaimon/shortify/config/factory/hash"
+	"github.com/ribeirosaimon/shortify/config/mediator"
 	"github.com/ribeirosaimon/shortify/internal/dto"
 	"github.com/ribeirosaimon/shortify/internal/entity"
-	"github.com/ribeirosaimon/shortify/internal/repository"
 	"github.com/ribeirosaimon/shortify/internal/vo"
 )
 
@@ -18,14 +17,10 @@ type UrlRecord interface {
 }
 
 type urlRecordUseCase struct {
-	urlRepository repository.UrlRecordRepository
 }
 
 func NewUrlRecord() *urlRecordUseCase {
-	recordRepository := di.GetRegistry().Inject(di.UrlRecordRepository).(repository.UrlRecordRepository)
-	return &urlRecordUseCase{
-		urlRepository: recordRepository,
-	}
+	return &urlRecordUseCase{}
 }
 
 func (u *urlRecordUseCase) Create(ctx context.Context, url *dto.UrlRecord) (*entity.UrlRecord, error) {
@@ -42,10 +37,7 @@ func (u *urlRecordUseCase) Create(ctx context.Context, url *dto.UrlRecord) (*ent
 	}
 	urlRecord := entity.NewUrlRecord(vo.NewUrl(url.Url), hash.Base62)
 
-	record, err := u.urlRepository.InsertUrlRecord(ctx, &urlRecord)
-	if err != nil {
-		return nil, err
-	}
+	mediator.Get().Notify(mediator.PersistUrlRecord, &urlRecord)
 
-	return record, nil
+	return &urlRecord, nil
 }

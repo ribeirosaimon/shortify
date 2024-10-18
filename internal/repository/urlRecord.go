@@ -31,7 +31,7 @@ type urlRepositoryImpl struct {
 
 func (u *urlRepositoryImpl) InsertUrlRecord(ctx context.Context, urlRecord *entity.UrlRecord) (*entity.UrlRecord, error) {
 	query := fmt.Sprintf("INSERT INTO %s (created_at, id, original_url, shortened_url) VALUES ($1, $2, $3, $4)", urlTable)
-	tlog.Debug("CreateUrlRecord", query)
+	tlog.Debug("urlRepositoryImpl.InsertUrlRecord", query)
 
 	exec, err := u.conn.GetConnection().Exec(query, urlRecord.GetCreatedAt(), urlRecord.GetId().GetValue(), urlRecord.GetOriginalUrl().GetValue(), urlRecord.GetShortenedUrl().GetValue())
 	if err != nil {
@@ -46,7 +46,7 @@ func (u *urlRepositoryImpl) InsertUrlRecord(ctx context.Context, urlRecord *enti
 
 func (u *urlRepositoryImpl) GetUrlRecord(ctx context.Context, id string) (*entity.UrlRecord, error) {
 	query := "SELECT u.id, u.original_url, u.shortened_url, u.created_at  FROM url_records u WHERE id = $1"
-	tlog.Debug("GetUrlRecord", query)
+	tlog.Debug("urlRepositoryImpl.GetUrlRecord", query)
 	var urlDao struct {
 		Id           string    `json:"id"`
 		OriginalUrl  string    `json:"original_url"`
@@ -56,7 +56,7 @@ func (u *urlRepositoryImpl) GetUrlRecord(ctx context.Context, id string) (*entit
 
 	if err := u.conn.GetConnection().QueryRow(query, id).
 		Scan(&urlDao.Id, &urlDao.OriginalUrl, &urlDao.ShortenedUrl, &urlDao.CreatedAt); err != nil {
-		tlog.Error("GetUrlRecord", "find url error", err)
+		tlog.Error("urlRepositoryImpl.GetUrlRecord", "find url error", err)
 		return nil, err
 	}
 

@@ -20,7 +20,7 @@ func TestHealth(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, rr.Code)
 
-	var actual dto.HealthResponse
+	var actual dto.Health
 	err = json.NewDecoder(rr.Body).Decode(&actual)
 	assert.NoError(t, err)
 

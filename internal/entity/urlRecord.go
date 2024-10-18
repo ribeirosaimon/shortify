@@ -20,7 +20,7 @@ func NewUrlRecord(originalUrl vo.Url, hashMethod hash.Method) UrlRecord {
 		id:           vo.NewId(),
 		createdAt:    time.Now(),
 		originalUrl:  originalUrl,
-		shortenedUrl: factory.EncriptByHashMethod(hashMethod),
+		shortenedUrl: factory.EncriptByHashMethod(hashMethod).Encode(),
 	}
 }
 

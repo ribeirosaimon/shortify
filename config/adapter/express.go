@@ -2,6 +2,8 @@ package adapter
 
 import (
 	"github.com/ribeirosaimon/shortify/config/di"
+	"github.com/ribeirosaimon/shortify/config/mediator"
+	"github.com/ribeirosaimon/shortify/internal/cache"
 	"github.com/ribeirosaimon/shortify/internal/repository"
 	"github.com/ribeirosaimon/shortify/internal/usecase"
 )
@@ -15,4 +17,9 @@ func NewExpress() {
 		return usecase.NewUrlRecord()
 	})
 
+	di.GetRegistry().Provide(di.UrlRecordCache, func() any {
+		return cache.NewUrlRecord()
+	})
+
+	mediator.PersistUrl()
 }

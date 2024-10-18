@@ -3,12 +3,10 @@ package usecase
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/golang/mock/gomock"
 	"github.com/ribeirosaimon/shortify/config/di"
 	"github.com/ribeirosaimon/shortify/internal/dto"
-	"github.com/ribeirosaimon/shortify/internal/entity"
 	repoMock "github.com/ribeirosaimon/shortify/internal/repository/mocks"
 	"github.com/stretchr/testify/assert"
 )
@@ -24,14 +22,12 @@ func TestUrlRecordUseCase(t *testing.T) {
 		return NewUrlRecord()
 	})
 
-	recordRepository := di.GetRegistry().Inject(di.UrlRecordRepository).(*repoMock.MockUrlRecordRepository)
 	NewUrlRecord()
 
 	ctx := context.Background()
 
 	for _, v := range []struct {
 		testName     string
-		auxFunc      func()
 		urlRecord    dto.UrlRecord
 		errorMessage string
 		hasError     bool
@@ -39,10 +35,6 @@ func TestUrlRecordUseCase(t *testing.T) {
 		{
 			testName:  "Need pass",
 			urlRecord: dto.UrlRecord{Url: "https://google.com"},
-			auxFunc: func() {
-				recordRepository.EXPECT().InsertUrlRecord(gomock.Any(), gomock.Any()).
-					Return(entity.TranformInUrlRecord("", "https://google.com", "", time.Now()), nil)
-			},
 		},
 		{
 			testName:     "Can't pass because is a no valid url",
@@ -63,9 +55,6 @@ func TestUrlRecordUseCase(t *testing.T) {
 		},
 	} {
 		t.Run(v.testName, func(t *testing.T) {
-			if v.auxFunc != nil {
-				v.auxFunc()
-			}
 			recordUseCase := di.GetRegistry().Inject(di.UrlRecordUseCase).(UrlRecord)
 			recordDb, err := recordUseCase.Create(ctx, &v.urlRecord)
 			if v.hasError {

@@ -14,11 +14,11 @@ import (
 // @Description Check up app
 // @Produce  json
 // @Router /health [get]
-// @Success 200 {HealthDto} HealthDto
+// @Success 200 {object} dto.Health "Success"
 func NewHealth(w http.ResponseWriter, r *http.Request) {
-	response.Ok(w, dto.HealthResponse{
+	response.Ok(w, dto.Health{
 		Up:          true,
-		Environment: tserver.GetEnvironment().Env,
+		Environment: string(tserver.GetEnvironment().Env),
 		Time:        time.Now(),
 	})
 }

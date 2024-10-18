@@ -22,12 +22,12 @@ func NewUrlRecord() *UrlRecord {
 }
 
 // NewUrlRecord
-// @Summary Post UrlRecord
+// @Summary Post url
 // @Description Create one urlRecord in database
 // @Produce  json
 // @Consume  json
-// @Router /url-record [get]
-// @Success 200 {UrlRecordDto} UrlRecordDto
+// @Router /url-record [post]
+// @Success 201 {object} dto.UrlRecord "Success"
 func (u *UrlRecord) NewUrlRecord(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	var urlRecordDto dto.UrlRecord

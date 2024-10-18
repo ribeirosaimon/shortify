@@ -12,22 +12,19 @@ const (
 	base62Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
 
-type EntityBase62 struct {
+type entityBase62 struct {
 	encodeType hash.Method
 }
 
-func NewBase62() *EntityBase62 {
-	return &EntityBase62{
+func NewBase62() entityBase62 {
+	return entityBase62{
 		encodeType: "base62",
 	}
 }
 
-func (e *EntityBase62) Encode() vo.HashedUrl {
-
+func (e entityBase62) Encode() vo.HashedUrl {
 	rand.NewSource(time.Now().UnixNano())
 	b := make([]rune, 5)
-
-	// Preenche o slice com caracteres aleatórios
 	for i := range b {
 		b[i] = rune(base62Chars[rand.Intn(len(base62Chars))])
 	}
@@ -35,6 +32,6 @@ func (e *EntityBase62) Encode() vo.HashedUrl {
 	return vo.NewHashedUrl(string(b))
 }
 
-func (e *EntityBase62) GetEncodeType() hash.Method {
+func (e entityBase62) GetEncodeType() hash.Method {
 	return e.encodeType
 }
