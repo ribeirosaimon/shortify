@@ -5,9 +5,8 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/ribeirosaimon/shortify/config/di"
+	mediatorMock "github.com/ribeirosaimon/shortify/config/mediator/mocks"
 	"github.com/ribeirosaimon/shortify/internal/dto"
-	repoMock "github.com/ribeirosaimon/shortify/internal/repository/mocks"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,14 +14,8 @@ func TestUrlRecordUseCase(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	di.GetRegistry().Provide(di.UrlRecordRepository, func() any {
-		return repoMock.NewMockUrlRecordRepository(ctrl)
-	})
-	di.GetRegistry().Provide(di.UrlRecordUseCase, func() any {
-		return NewUrlRecord()
-	})
-
-	NewUrlRecord()
+	mediator := mediatorMock.NewMockHandler(ctrl)
+	recordUseCase := NewUrlRecord(mediator)
 
 	ctx := context.Background()
 
@@ -31,10 +24,14 @@ func TestUrlRecordUseCase(t *testing.T) {
 		urlRecord    dto.UrlRecord
 		errorMessage string
 		hasError     bool
+		auxFunc      func()
 	}{
 		{
 			testName:  "Need pass",
 			urlRecord: dto.UrlRecord{Url: "https://google.com"},
+			auxFunc: func() {
+				mediator.EXPECT().Notify(gomock.Any()).Return(nil)
+			},
 		},
 		{
 			testName:     "Can't pass because is a no valid url",
@@ -55,7 +52,9 @@ func TestUrlRecordUseCase(t *testing.T) {
 		},
 	} {
 		t.Run(v.testName, func(t *testing.T) {
-			recordUseCase := di.GetRegistry().Inject(di.UrlRecordUseCase).(UrlRecord)
+			if v.auxFunc != nil {
+				v.auxFunc()
+			}
 			recordDb, err := recordUseCase.Create(ctx, &v.urlRecord)
 			if v.hasError {
 				assert.NotNil(t, err)

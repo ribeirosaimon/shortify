@@ -1,6 +1,6 @@
 FROM golang:latest as builder
 WORKDIR /app
-COPY . /app
+COPY create /app
 RUN go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o shortify /app/src/main.go

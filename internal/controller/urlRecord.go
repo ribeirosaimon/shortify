@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/ribeirosaimon/shortify/config/di"
+	"github.com/ribeirosaimon/shortify/config/server"
 	"github.com/ribeirosaimon/shortify/internal/dto"
 	"github.com/ribeirosaimon/shortify/internal/usecase"
 	"github.com/ribeirosaimon/tooltip/response"
@@ -17,7 +17,7 @@ type UrlRecord struct {
 
 func NewUrlRecord() *UrlRecord {
 	return &UrlRecord{
-		urlRecord: di.GetRegistry().Inject(di.UrlRecordUseCase).(usecase.UrlRecord),
+		urlRecord: server.GetUrlRecordUsecase(),
 	}
 }
 

@@ -1,19 +1,23 @@
 # Shortify
 
 1. Dependency Injection
+
    No contexto do Go, implementei o Dependency Injection de forma centralizada
    no adapter, onde todas as dependências do projeto são inseridas. Isso facilita
    a testabilidade e permite que qualquer alteração em um serviço seja refletida
-   de forma consistente em toda a aplicação. Embora o Go não tenha uma abordagem 
-   nativa para DI, essa solução oferece flexibilidade e modularidade ao sistema.
+   de forma consistente em toda a aplicação.
 
 ```
-   di.GetRegistry().Provide(di.UrlRecordUseCase, func() any {
-       return usecase.NewUrlRecord()
-   })
+  	server.NewServices(
+		server.WithUrlRepository(urlRepository),
+		server.WithUrlCache(urlCache),
+		server.WithUrlUseCase(urlUseCase),
+		server.WithUrlPersistMediator(urlMediator),
+	)
 ```
 
 2. Factory
+
    Implementei o padrão Factory para facilitar a expansão e modificação das 
    funcionalidades. O objetivo é que futuramente seja possível adicionar diferentes
    tipos de planos para os usuários, cada um com regras específicas de expiração das URLs.
@@ -50,29 +54,26 @@
 ```
 
 3. Arquitetura Baseada em Eventos e Padrão Mediator
+
    Utilizo uma arquitetura baseada em eventos, onde o padrão Mediator é responsável
    por orquestrar a persistência das URLs. Essa abordagem permite que as funcionalidades
    sejam desacopladas e promovam uma melhor organização e fluxo de dados no sistema.
 
 ```
-   func PersistUrl() {
-       Get().Register(PersistUrlRecord, func(T any) error {
-           record := di.GetRegistry().Inject(di.UrlRecordRepository).(repository.UrlRecordRepository)
-           recordCache := di.GetRegistry().Inject(di.UrlRecordCache).(cache.UrlRecord)
-   
-           persistUrlRecordContext := context.Background()
-           if err := recordCache.Create(persistUrlRecordContext, T.(*entity.UrlRecord)); err != nil {
-               return err
-           }
-           _, err := record.InsertUrlRecord(persistUrlRecordContext, T.(*entity.UrlRecord))
-           if err != nil {
-               return err
-           }
-           return nil
-       })
-   }
+  func (p *PersistUrlMediator) Notify(T any) error {
+	persistUrlRecordContext := context.Background()
+	if err := p.urlCache.Create(persistUrlRecordContext, T.(*entity.UrlRecord)); err != nil {
+		return err
+	}
+	_, err := p.urRepository.InsertUrlRecord(persistUrlRecordContext, T.(*entity.UrlRecord))
+	if err != nil {
+		return err
+	}
+	return nil
+}
 ```
 4. Organização de Configurações
+
 Todas as variáveis de ambiente estão centralizadas em um arquivo config.ENVIRONMENT.yaml,
 facilitando o gerenciamento e a modificação dos parâmetros de configuração do sistema.
 

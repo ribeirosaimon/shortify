@@ -4,7 +4,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/ribeirosaimon/shortify/config/di"
 	"github.com/ribeirosaimon/shortify/config/factory/hash"
 	"github.com/ribeirosaimon/shortify/internal/entity"
 	"github.com/ribeirosaimon/shortify/internal/vo"
@@ -21,12 +20,7 @@ func TestUrlRecordRepository(t *testing.T) {
 
 	tserver.NewMockEnvironment(tserver.MockEnvironment{PgsqlHost: container.GetHost(), PgsqlDatabase: "test", PgsqlEntryPoint: "../../init.sql"})
 
-	di.GetRegistry().Provide(di.UrlRecordRepository, func() any {
-		return NewUrl()
-	})
-
-	repository := di.GetRegistry().Inject(di.UrlRecordRepository).(UrlRecordRepository)
-
+	repository := NewUrl()
 	for _, v := range []struct {
 		testName        string
 		entity          entity.UrlRecord

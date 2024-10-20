@@ -17,10 +17,13 @@ type UrlRecord interface {
 }
 
 type urlRecordUseCase struct {
+	mediator mediator.Handler
 }
 
-func NewUrlRecord() *urlRecordUseCase {
-	return &urlRecordUseCase{}
+func NewUrlRecord(mediator mediator.Handler) *urlRecordUseCase {
+	return &urlRecordUseCase{
+		mediator: mediator,
+	}
 }
 
 func (u *urlRecordUseCase) Create(ctx context.Context, url *dto.UrlRecord) (*entity.UrlRecord, error) {
@@ -37,7 +40,9 @@ func (u *urlRecordUseCase) Create(ctx context.Context, url *dto.UrlRecord) (*ent
 	}
 	urlRecord := entity.NewUrlRecord(vo.NewUrl(url.Url), hash.Base62)
 
-	mediator.Get().Notify(mediator.PersistUrlRecord, &urlRecord)
+	if err := u.mediator.Notify(ctx, &urlRecord); err != nil {
+		return nil, err
+	}
 
 	return &urlRecord, nil
 }
