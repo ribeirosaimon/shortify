@@ -20,12 +20,11 @@ func NewPersistUrlMediator(recordRepository repository.UrlRecordRepository, reco
 	}
 }
 
-func (p *PersistUrlMediator) Notify(T any) error {
-	persistUrlRecordContext := context.Background()
-	if err := p.urlCache.Create(persistUrlRecordContext, T.(*entity.UrlRecord)); err != nil {
+func (p *PersistUrlMediator) Notify(ctx context.Context, T any) error {
+	if err := p.urlCache.Create(ctx, T.(*entity.UrlRecord)); err != nil {
 		return err
 	}
-	_, err := p.urRepository.InsertUrlRecord(persistUrlRecordContext, T.(*entity.UrlRecord))
+	_, err := p.urRepository.InsertUrlRecord(ctx, T.(*entity.UrlRecord))
 	if err != nil {
 		return err
 	}
