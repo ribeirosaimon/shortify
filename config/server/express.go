@@ -40,16 +40,6 @@ func NewServices(opts ...Option) *services {
 
 // functions to get a mapped service
 
-func GetUrlRecordRepository() repository.UrlRecordRepository {
-	return appServerService.urlRepository
-}
-
 func GetUrlRecordUsecase() usecase.UrlRecord {
 	return appServerService.urlUseCase
-}
-func GetUrlRecordCache() cache.UrlRecord {
-	return appServerService.urlCache
-}
-func GetPersistMediator() mediator.Handler {
-	return appServerService.urlPersistMediator
 }

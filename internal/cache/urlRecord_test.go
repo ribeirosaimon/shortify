@@ -15,7 +15,7 @@ import (
 func TestUrlCache(t *testing.T) {
 	ctx := context.Background()
 	container := tcontainer.NewRedisTestContainer()
-	err := container.Redis()
+	err := container.Start()
 	assert.Nil(t, err)
 
 	tserver.NewMockEnvironment(tserver.MockEnvironment{RedisHost: container.GetHost(), RedisDatabase: "test"})

@@ -25,7 +25,7 @@ func NewPgsqlConnection() pgsql.PConnInterface {
 }
 
 func NewRedisConnection() redis.RConnInterface {
-	config := tserver.GetPgsqlConfig()
+	config := tserver.GetRedisConfig()
 	return redis.NewRedisConnection(
 		redis.WithUrl(config.Host),
 	)
