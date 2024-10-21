@@ -50,6 +50,7 @@ func GetUrlRecordUsecase() usecase.UrlRecord {
 func GetUrlRecordCache() cache.UrlRecord {
 	return appServerService.urlCache
 }
+
 func GetPersistMediator() mediator.Handler {
 	return appServerService.urlPersistMediator
 }
