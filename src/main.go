@@ -40,6 +40,7 @@ func main() {
 	)
 
 	controller.Start()
+
 	config := tserver.GetEnvironment()
 	if config.Env == "" {
 		log.Fatal("Environment variable not set")
