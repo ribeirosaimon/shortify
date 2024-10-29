@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ribeirosaimon/shortify/config/mediator"
+	"github.com/ribeirosaimon/shortify/config/promt"
 	"github.com/ribeirosaimon/shortify/config/server"
 	"github.com/ribeirosaimon/shortify/internal/cache"
 	"github.com/ribeirosaimon/shortify/internal/controller"
@@ -26,6 +27,8 @@ func main() {
 	if myEnv := os.Getenv("ENVIRONMENT"); myEnv != "" {
 		tserver.StartEnv(tserver.Environment(myEnv))
 	}
+
+	promt.Register()
 
 	urlRepository := repository.NewUrl()
 	urlCache := cache.NewUrlRecord()
