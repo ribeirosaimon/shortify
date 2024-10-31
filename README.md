@@ -1,5 +1,7 @@
 # Shortify
 
+![img_1.png](img_1.png)
+
 1. Dependency Injection
 
    No contexto do Go, implementei o Dependency Injection de forma centralizada
