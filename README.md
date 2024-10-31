@@ -98,7 +98,6 @@ facilitando o gerenciamento e a modificação dos parâmetros de configuração 
 
 6. Demais Observacões
 
-* swager configurado
 * subdomínio de suporte `github.com/ribeirosaimon/tooltip v0.0.1`
 * swager
 * lint
