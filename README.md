@@ -60,12 +60,11 @@
    sejam desacopladas e promovam uma melhor organização e fluxo de dados no sistema.
 
 ```
-  func (p *PersistUrlMediator) Notify(T any) error {
-	persistUrlRecordContext := context.Background()
-	if err := p.urlCache.Create(persistUrlRecordContext, T.(*entity.UrlRecord)); err != nil {
+ func (p *PersistUrlMediator) Notify(ctx context.Context, T any) error {
+	if err := p.urlCache.Create(ctx, T.(*entity.UrlRecord)); err != nil {
 		return err
 	}
-	_, err := p.urRepository.InsertUrlRecord(persistUrlRecordContext, T.(*entity.UrlRecord))
+	_, err := p.urRepository.InsertUrlRecord(ctx, T.(*entity.UrlRecord))
 	if err != nil {
 		return err
 	}
@@ -83,7 +82,7 @@ facilitando o gerenciamento e a modificação dos parâmetros de configuração 
      port: 8080
      hostname: http://shortify
    pgsql:
-     host: postgres://postgres:frajolinha202@localhost:5432/shortify
+     host: postgres://postgres:XXX@localhost:5432/shortify
      entryPoint: ./init.sql
    redis:
      url: redis://localhost:6379
