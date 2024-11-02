@@ -1,0 +1,8 @@
+config:
+  env: development
+  port: 8080
+  hostname: http://shortify
+pgsql:
+  host: postgres://postgres:123456@shortify-postgres:5432/shortify
+redis:
+  url: redis://shortify-redis:6379

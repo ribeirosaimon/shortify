@@ -32,3 +32,8 @@ dev: lint
 sandbox: lint
 	@echo "Up with docker-compose"
 	ENVIRONMENT=sandbox docker-compose up
+
+.PHONY: docker
+docker: lint
+	@echo "Up with docker-compose in docker containers"
+	ENVIRONMENT=docker docker-compose up

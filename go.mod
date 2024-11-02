@@ -2,13 +2,13 @@ module github.com/ribeirosaimon/shortify
 
 go 1.23.1
 
-replace github.com/ribeirosaimon/tooltip => /home/saimon/Documents/Estudos/tooltip
+//replace github.com/ribeirosaimon/tooltip => /home/saimon/Documents/Estudos/tooltip
 
 require (
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.6.0
 	github.com/prometheus/client_golang v1.14.0
-	github.com/ribeirosaimon/tooltip v0.0.2
+	github.com/ribeirosaimon/tooltip v0.0.5
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/http-swagger v1.3.4
 	github.com/swaggo/swag v1.16.3
