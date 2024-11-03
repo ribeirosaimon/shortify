@@ -11,4 +11,5 @@ WORKDIR /app
 COPY --from=builder /app/shortify /app
 COPY --from=builder /app/config.${ENVIRONMENT}.yaml /app
 COPY --from=builder /app/init.sql /app
+COPY --from=builder /app/prometheus.yml /app
 ENTRYPOINT ./shortify

@@ -7,3 +7,4 @@ pgsql:
   entryPoint: ./init.sql
 redis:
   url: redis://localhost:6379
+  database: 0

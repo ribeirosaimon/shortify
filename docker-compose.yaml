@@ -14,10 +14,13 @@ services:
     depends_on:
       - shortify-postgres
       - shortify-redis
-  
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      
   shortify-postgres:
     image: postgres:14.3
     environment:
+      POSTGRES_USER: myuser
       POSTGRES_PASSWORD: 123456
       POSTGRES_DB: shortify
     ports:
@@ -29,6 +32,8 @@ services:
     image: "redis:latest"
     ports:
       - "6378:6379"
+    volumes:
+      - redis-data:/data
         
   prometheus:
     image: prom/prometheus
@@ -37,7 +42,32 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://myuser:123456@shortify-postgres:5432/shortify?sslmode=disable"
+    ports:
+      - "9187:9187"
+    depends_on:
+      - shortify-postgres
+  
+  redis-exporter:
+    image: oliver006/redis_exporter
+    environment:
+      REDIS_ADDR: "redis://shortify-redis:6379"
+    ports:
+      - "9121:9121"
+    depends_on:
+      - shortify-redis
+      
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
+  redis-data:
+  pgdata:
