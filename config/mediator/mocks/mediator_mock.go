@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	context "context"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -34,15 +35,15 @@ func (m *MockHandler) EXPECT() *MockHandlerMockRecorder {
 }
 
 // Notify mocks base method.
-func (m *MockHandler) Notify(T any) error {
+func (m *MockHandler) Notify(ctx context.Context, T any) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Notify", T)
+	ret := m.ctrl.Call(m, "Notify", ctx, T)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Notify indicates an expected call of Notify.
-func (mr *MockHandlerMockRecorder) Notify(T interface{}) *gomock.Call {
+func (mr *MockHandlerMockRecorder) Notify(ctx, T interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Notify", reflect.TypeOf((*MockHandler)(nil).Notify), T)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Notify", reflect.TypeOf((*MockHandler)(nil).Notify), ctx, T)
 }

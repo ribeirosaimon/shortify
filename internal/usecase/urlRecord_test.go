@@ -20,17 +20,17 @@ func TestUrlRecordUseCase(t *testing.T) {
 	ctx := context.Background()
 
 	for _, v := range []struct {
-		testName     string
+		auxFunc      func()
 		urlRecord    dto.UrlRecord
+		testName     string
 		errorMessage string
 		hasError     bool
-		auxFunc      func()
 	}{
 		{
 			testName:  "Need pass",
 			urlRecord: dto.UrlRecord{Url: "https://google.com"},
 			auxFunc: func() {
-				mediator.EXPECT().Notify(gomock.Any()).Return(nil)
+				mediator.EXPECT().Notify(gomock.Any(), gomock.Any()).Return(nil)
 			},
 		},
 		{

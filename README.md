@@ -1,8 +1,25 @@
 # Shortify
 
+---
+
+### Como rodar o projeto:
+```bash
+make docker
+```
+---
+### Doc
+[Microserviço de Escrita](http://localhost:8080/swagger)
+
+[Microserviço de Leitura](http://localhost:8081/swagger)
+
+---
+### Objetivo Final:
+
 ![img_1.png](img_1.png)
 
-1. Dependency Injection
+---
+
+## 1. Dependency Injection
 
    No contexto do Go, implementei o Dependency Injection de forma centralizada
    no adapter, onde todas as dependências do projeto são inseridas. Isso facilita
@@ -18,7 +35,7 @@
 	)
 ```
 
-2. Factory
+## 2. Factory
 
    Implementei o padrão Factory para facilitar a expansão e modificação das 
    funcionalidades. O objetivo é que futuramente seja possível adicionar diferentes
@@ -55,7 +72,7 @@
 	}
 ```
 
-3. Arquitetura Baseada em Eventos e Padrão Mediator
+## 3. Arquitetura Baseada em Eventos e Padrão Mediator
 
    Utilizo uma arquitetura baseada em eventos, onde o padrão Mediator é responsável
    por orquestrar a persistência das URLs. Essa abordagem permite que as funcionalidades
@@ -73,7 +90,7 @@
 	return nil
 }
 ```
-4. Organização de Configurações
+## 4. Organização de Configurações
 
 Todas as variáveis de ambiente estão centralizadas em um arquivo config.ENVIRONMENT.yaml,
 facilitando o gerenciamento e a modificação dos parâmetros de configuração do sistema.
@@ -92,7 +109,7 @@ facilitando o gerenciamento e a modificação dos parâmetros de configuração 
 ```
 
 
-5. Domain-Driven Design (DDD)
+## 5. Domain-Driven Design (DDD)
    O projeto segue os princípios de Domain-Driven Design (DDD), organizando o código
    de forma a refletir claramente os domínios e subdomínios da aplicação.
    Isso garante uma separação de responsabilidades bem definida e facilita a
@@ -104,4 +121,11 @@ facilitando o gerenciamento e a modificação dos parâmetros de configuração 
 * swager
 * lint
 * cobertura de testes unitários e de integracão com teste containers
-   ![img.png](img.png)
+* 
+
+![img.png](img.png)
+
+![img_3.png](img_3.png)
+
+![img_2.png](img_2.png)
+

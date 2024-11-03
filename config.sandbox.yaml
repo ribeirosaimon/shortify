@@ -5,4 +5,5 @@ database:
   url: postgres://user:password@localhost:5432/dbname
   max_connections: 20
 redis:
-  url: redis://localhost:6379
+  host: localhost:6379
+  database: 0

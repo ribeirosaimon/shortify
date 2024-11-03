@@ -5,5 +5,5 @@ config:
 pgsql:
   host: postgres://myuser:123456@shortify-postgres:5432/shortify
 redis:
-  url: redis://shortify-redis:6379
+  host: shortify-redis:6379
   database: 0

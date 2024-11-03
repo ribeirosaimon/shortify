@@ -6,6 +6,11 @@ scrape_configs:
     static_configs:
       - targets: ['shortify:8080']
 
+  - job_name: 'shortify-read'
+    static_configs:
+      - targets: ['shortify-read:8081']
+
+
   - job_name: 'shortify-postgres'
     static_configs:
       - targets: ['postgres-exporter:9187']

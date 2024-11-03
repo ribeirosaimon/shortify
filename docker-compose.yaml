@@ -17,6 +17,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       
+  shortify-read:
+    image: saimonribeiros/shortify-read:latest    
+    ports:
+      - "8081:8081"
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
+    depends_on:
+      - shortify-postgres
+      - shortify-redis
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+         
   shortify-postgres:
     image: postgres:14.3
     environment:
@@ -27,14 +39,14 @@ services:
       - "5431:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  
+
   shortify-redis:
     image: "redis:latest"
     ports:
       - "6378:6379"
     volumes:
       - redis-data:/data
-        
+
   prometheus:
     image: prom/prometheus
     ports:
@@ -50,7 +62,7 @@ services:
       - "9187:9187"
     depends_on:
       - shortify-postgres
-  
+
   redis-exporter:
     image: oliver006/redis_exporter
     environment:
@@ -59,7 +71,7 @@ services:
       - "9121:9121"
     depends_on:
       - shortify-redis
-      
+
   grafana:
     image: grafana/grafana
     ports:

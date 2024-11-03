@@ -36,7 +36,7 @@ func (u *urlRecordCache) Create(ctx context.Context, urlRecord *entity.UrlRecord
 			urlRecord.GetOriginalUrl().GetValue(),
 			plan.TimeToExpired()).
 		Err(); err != nil {
-		tlog.Warn("NewUrlRecord.Create", "Error when create Url in Redis")
+		tlog.Warn("NewUrlRecord.Create", "Error when create Url in Redis: %s", err)
 	}
 	return nil
 }
